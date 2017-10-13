@@ -4,7 +4,7 @@ CompliantStabilizer::CompliantStabilizer(){
 
     FzODE=Vector2d::Zero();
 
-    m_sampletime=0.005;
+    m_sampletime=0.002;
     m_g= 9.81;
     m_mass=30;
     m_Fzmin= 10;

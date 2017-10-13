@@ -75,9 +75,9 @@ private:
     Vector3d m_Cgains; //<! Derivative control gains
     Vector3d m_MaxLimit; //<! Upper bound of the ZMP
     Vector3d m_MinLimit; //<! Lower bound of the ZMP
-    double ANKLE_HEIGHT=0.0793;
+    double ANKLE_HEIGHT=0.05;
     double FOOT_LENGTH=0.2;
-    double ANKLE_X_OFFSET=0.03;
+    double ANKLE_X_OFFSET=0.00;
     double FOOT_WIDTH=0.1;
     Vector3d lcop_raw;
     Vector3d rcop_raw;
