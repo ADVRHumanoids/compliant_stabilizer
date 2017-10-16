@@ -1,22 +1,57 @@
 #include <compliant_stabilizer/compliantstabilizer.h>
 
-CompliantStabilizer::CompliantStabilizer(){
+
+CompliantStabilizer::CompliantStabilizer(const double sample_time, const double mass,
+                                         const double Fzmin,
+                                         const Eigen::Vector3d& K, const Eigen::Vector3d& C,
+                                         const Eigen::Vector3d& MaxLims,
+                                         const Eigen::Vector3d& MinLims,
+                                         const double samples2ODE,
+                                         const double freq)
+{
 
     FzODE=Vector2d::Zero();
 
-    m_sampletime=0.002;
+    m_sampletime=sample_time;
     m_g= 9.81;
-    m_mass=30;
-    m_Fzmin= 10;
+    m_mass=mass; //30
+    m_Fzmin= Fzmin;
 
 
-    this->m_Kgains={0.1,0.2,0};
-    this->m_Cgains={-0.005,-0.01,0};
-    m_MaxLimit<<0.3,0.15,0.001;
-    m_MinLimit<<-0.2,-0.15,-0.1;
+    this->m_Kgains=K;
+    this->m_Cgains=C;
+    m_MaxLimit<<MaxLims;
+    m_MinLimit<<MinLims;
 
-    m_samples2ODE=50;
-    m_freq=10;
+    m_samples2ODE=samples2ODE;
+    m_freq=freq;
+
+    m_dZMP_bufferODE.resize(2,m_samples2ODE);
+    m_cop=Vector2d::Zero();
+
+    m_FilterCOPX.butterworth ( this->m_sampletime, m_freq, 1 );
+    m_FilterCOPY.butterworth ( this->m_sampletime, m_freq, 1 );
+
+
+}
+
+CompliantStabilizer::CompliantStabilizer(const double sample_time, const double mass){
+
+    FzODE=Vector2d::Zero();
+
+    m_sampletime=sample_time;
+    m_g= 9.81;
+    m_mass=mass; //30
+    m_Fzmin= DEFAULT_Fzmin;
+
+
+    this->m_Kgains={DEFAULT_Kx,DEFAULT_Ky,0};
+    this->m_Cgains={DEFAULT_Cx,DEFAULT_Cy,0};
+    m_MaxLimit<<DEFAULT_MaxLimsx,DEFAULT_MaxLimsy,DEFAULT_MaxLimsz;
+    m_MinLimit<<DEFAULT_MinLimsx,DEFAULT_MinLimsy,DEFAULT_MinLimsz;
+
+    m_samples2ODE=DEFAULT_smaples2ODE;
+    m_freq=DEFAULT_freq;
 
     m_dZMP_bufferODE.resize(2,m_samples2ODE);
     m_cop=Vector2d::Zero();

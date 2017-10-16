@@ -28,7 +28,7 @@
 #include <vector>
 #include <Eigen/Dense>
 #include "FilterHClass.h"
-
+#include <compliant_stabilizer/defines.h>
 
 using namespace Eigen;
 class CompliantStabilizer {
@@ -36,7 +36,15 @@ class CompliantStabilizer {
     /// \brief The default constructor initialize controller name and use robot control states
     ///
 public:
-    CompliantStabilizer();
+    CompliantStabilizer(const double sample_time, const double mass,
+                                             const double Fzmin,
+                                             const Eigen::Vector3d& K, const Eigen::Vector3d& C,
+                                             const Eigen::Vector3d& MaxLims,
+                                             const Eigen::Vector3d& MinLims,
+                                             const double samples2ODE=DEFAULT_smaples2ODE,
+                                             const double freq=DEFAULT_freq);
+
+    CompliantStabilizer(const double sample_time, const double mass);
     /// \brief default destructor
     ~CompliantStabilizer();
 
