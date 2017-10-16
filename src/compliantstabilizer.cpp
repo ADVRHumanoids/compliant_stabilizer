@@ -2,12 +2,18 @@
 
 
 CompliantStabilizer::CompliantStabilizer(const double sample_time, const double mass,
+                                         const double ankle_height,
+                                         const Eigen::Vector2d& foot_size,
                                          const double Fzmin,
                                          const Eigen::Vector3d& K, const Eigen::Vector3d& C,
                                          const Eigen::Vector3d& MaxLims,
                                          const Eigen::Vector3d& MinLims,
                                          const double samples2ODE,
-                                         const double freq)
+                                         const double freq):
+    ANKLE_X_OFFSET(DEFAULT_ANKLE_X_OFFSET),
+    ANKLE_HEIGHT(ankle_height),
+    FOOT_LENGTH(foot_size[0]),
+    FOOT_WIDTH(foot_size[1])
 {
 
     FzODE=Vector2d::Zero();
@@ -35,7 +41,14 @@ CompliantStabilizer::CompliantStabilizer(const double sample_time, const double 
 
 }
 
-CompliantStabilizer::CompliantStabilizer(const double sample_time, const double mass){
+CompliantStabilizer::CompliantStabilizer(const double sample_time, const double mass,
+                                         const double ankle_height,
+                                         const Eigen::Vector2d& foot_size):
+    ANKLE_X_OFFSET(DEFAULT_ANKLE_X_OFFSET),
+    ANKLE_HEIGHT(ankle_height),
+    FOOT_LENGTH(foot_size[0]),
+    FOOT_WIDTH(foot_size[1])
+{
 
     FzODE=Vector2d::Zero();
 
@@ -61,9 +74,16 @@ CompliantStabilizer::CompliantStabilizer(const double sample_time, const double 
 
 
 }
+
 CompliantStabilizer::~CompliantStabilizer(){
 
 }
+
+void CompliantStabilizer::setAnkleOffset(const double x_offset)
+{
+    ANKLE_X_OFFSET = x_offset;
+}
+
 Vector3d CompliantStabilizer::update(Eigen::VectorXd FTLeft, Eigen::VectorXd FTRight, Eigen::Vector2d CoPRight, Eigen::Vector2d CoPLeft,Vector3d Rft, Vector3d Lft){
 
 

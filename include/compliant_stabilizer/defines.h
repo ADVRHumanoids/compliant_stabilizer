@@ -20,5 +20,6 @@
 #define DEFAULT_smaples2ODE 50
 #define DEFAULT_freq 10
 
+#define DEFAULT_ANKLE_X_OFFSET 0.0
 
 #endif

@@ -37,14 +37,18 @@ class CompliantStabilizer {
     ///
 public:
     CompliantStabilizer(const double sample_time, const double mass,
-                                             const double Fzmin,
-                                             const Eigen::Vector3d& K, const Eigen::Vector3d& C,
-                                             const Eigen::Vector3d& MaxLims,
-                                             const Eigen::Vector3d& MinLims,
-                                             const double samples2ODE=DEFAULT_smaples2ODE,
-                                             const double freq=DEFAULT_freq);
+                        const double ankle_height,
+                        const Eigen::Vector2d& foot_size,
+                         const double Fzmin,
+                         const Eigen::Vector3d& K, const Eigen::Vector3d& C,
+                         const Eigen::Vector3d& MaxLims,
+                         const Eigen::Vector3d& MinLims,
+                         const double samples2ODE=DEFAULT_smaples2ODE,
+                         const double freq=DEFAULT_freq);
 
-    CompliantStabilizer(const double sample_time, const double mass);
+    CompliantStabilizer(const double sample_time, const double mass,
+                        const double ankle_height,
+                        const Eigen::Vector2d& foot_size);
     /// \brief default destructor
     ~CompliantStabilizer();
 
@@ -60,6 +64,8 @@ public:
     /// \brief Get the gains information of the specific controller.
     /// \return A map composed of the gains name and it's value/s.
    void setGains(double Kx, double Ky, double Cx, double Cy);
+
+   void setAnkleOffset(const double x_offset);
 
 private:
    void CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left, Vector3d Rft, Vector3d Lft);
@@ -83,10 +89,10 @@ private:
     Vector3d m_Cgains; //<! Derivative control gains
     Vector3d m_MaxLimit; //<! Upper bound of the ZMP
     Vector3d m_MinLimit; //<! Lower bound of the ZMP
-    double ANKLE_HEIGHT=0.05;
-    double FOOT_LENGTH=0.2;
-    double ANKLE_X_OFFSET=0.00;
-    double FOOT_WIDTH=0.1;
+    double ANKLE_HEIGHT; //0.05;
+    double FOOT_LENGTH; //0.2;
+    double ANKLE_X_OFFSET;
+    double FOOT_WIDTH; //0.1;
     Vector3d lcop_raw;
     Vector3d rcop_raw;
 
