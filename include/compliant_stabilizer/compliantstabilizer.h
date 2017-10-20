@@ -57,7 +57,9 @@ public:
     /// \param[in] robotState   Present state of the robot
     /// \param[in] originalControlState Present control states to be modified by the controllers
     /// \param[out] modifiedControlState states after modification
- Vector3d update(Eigen::VectorXd FTLeft, Eigen::VectorXd FTRight, Eigen::Vector2d CoPRight, Eigen::Vector2d CoPLeft,Vector3d Rft, Vector3d Lft);
+ Vector3d update(Eigen::VectorXd FTLeft, Eigen::VectorXd FTRight,
+                 Eigen::Vector2d CoPLeft, Eigen::Vector2d CoPRight,
+                 Vector3d Lft, Vector3d Rft);
 
 
 

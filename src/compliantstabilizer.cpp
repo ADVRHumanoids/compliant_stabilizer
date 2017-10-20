@@ -84,7 +84,9 @@ void CompliantStabilizer::setAnkleOffset(const double x_offset)
     ANKLE_X_OFFSET = x_offset;
 }
 
-Vector3d CompliantStabilizer::update(Eigen::VectorXd FTLeft, Eigen::VectorXd FTRight, Eigen::Vector2d CoPRight, Eigen::Vector2d CoPLeft,Vector3d Rft, Vector3d Lft){
+Vector3d CompliantStabilizer::update(Eigen::VectorXd FTLeft, Eigen::VectorXd FTRight,
+                                     Eigen::Vector2d CoPLeft, Eigen::Vector2d CoPRight,
+                                     Vector3d Lft, Vector3d Rft){
 
 
     CalcCop(FTRight, FTLeft, Rft, Lft);
