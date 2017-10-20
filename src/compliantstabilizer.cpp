@@ -33,12 +33,18 @@ CompliantStabilizer::CompliantStabilizer(const double sample_time, const double 
     m_freq=freq;
 
     m_dZMP_bufferODE.resize(2,m_samples2ODE);
+    m_dZMP_bufferODE.setZero(2,m_samples2ODE);
     m_cop=Vector2d::Zero();
 
     m_FilterCOPX.butterworth ( this->m_sampletime, m_freq, 1 );
     m_FilterCOPY.butterworth ( this->m_sampletime, m_freq, 1 );
 
-
+    //Filter initialization
+    for(int i = 0; i < 100; ++i)
+    {
+        m_FilterCOPX.applyFilter(0.0);
+        m_FilterCOPY.applyFilter(0.0);
+    }
 }
 
 CompliantStabilizer::CompliantStabilizer(const double sample_time, const double mass,
