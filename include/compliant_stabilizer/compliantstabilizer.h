@@ -31,6 +31,11 @@
 #include <compliant_stabilizer/defines.h>
 
 using namespace Eigen;
+
+namespace Eigen {
+    typedef Eigen::Matrix<double, 6, 1> Vector6d;
+}
+
 class CompliantStabilizer {
     ///
     /// \brief The default constructor initialize controller name and use robot control states
@@ -57,9 +62,9 @@ public:
     /// \param[in] robotState   Present state of the robot
     /// \param[in] originalControlState Present control states to be modified by the controllers
     /// \param[out] modifiedControlState states after modification
- Vector3d update(Eigen::VectorXd FTLeft, Eigen::VectorXd FTRight,
-                 Eigen::Vector2d CoPLeft, Eigen::Vector2d CoPRight,
-                 Vector3d Lft, Vector3d Rft);
+ Vector3d update(const Eigen::Vector6d& FTLeft, const Eigen::Vector6d& FTRight,
+                 const Eigen::Vector2d& CoPLeft, const Eigen::Vector2d& CoPRight,
+                 const Vector3d& Lft, const Vector3d& Rft);
 
 
 
