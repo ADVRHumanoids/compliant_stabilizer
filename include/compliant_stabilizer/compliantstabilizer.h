@@ -78,6 +78,8 @@ public:
 
    void getCoP(Eigen::Vector2d& cop);
 
+   void flush();
+
 private:
    void CalcCop(const Eigen::Vector6d& FT_foot_right, 
                 const Eigen::Vector6d& FT_foot_left, 

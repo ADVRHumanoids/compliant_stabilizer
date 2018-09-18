@@ -212,7 +212,7 @@ void CompliantStabilizer::getCoP(Eigen::Vector2d& cop)
     cop = m_cop;
 }
 
-void CompliantStabilizer::CalcCop(const Eigen::Vector6d& __FT_foot_right, 
+void CompliantStabilizer::CalcCop(const Eigen::Vector6d& __FT_foot_right,
                 const Eigen::Vector6d& __FT_foot_left, 
                 const Vector3d& Rft, 
                 const Vector3d& Lft)
@@ -315,5 +315,10 @@ void CompliantStabilizer::CalcCop(const Eigen::Vector6d& __FT_foot_right,
     _logger->add("l_cop_computed", (int)l_cop_computed, 1, 20000);
     _logger->add("r_cop_computed", (int)r_cop_computed, 1, 20000);
 
+}
+
+void CompliantStabilizer::flush()
+{
+    _logger->flush();
 }
 
