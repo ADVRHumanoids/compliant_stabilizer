@@ -29,6 +29,7 @@
 #include <Eigen/Dense>
 #include "FilterHClass.h"
 #include <compliant_stabilizer/defines.h>
+#include <XBotInterface/MatLogger.hpp>
 
 using namespace Eigen;
 
@@ -73,11 +74,15 @@ public:
    void setGains(double Kx, double Ky, double Cx, double Cy);
 
    void setAnkleOffset(const double x_offset);
+   
 
    void getCoP(Eigen::Vector2d& cop);
 
 private:
-   void CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left, Vector3d Rft, Vector3d Lft);
+   void CalcCop(const Eigen::Vector6d& FT_foot_right, 
+                const Eigen::Vector6d& FT_foot_left, 
+                const Vector3d& Rft, 
+                const Vector3d& Lft);
 
     MatrixXd m_dZMP_bufferODE; //!< Derivative of filtered ZMP circular buffer
     int m_samples2ODE; //!< circular buffer size for the ZMP derivation
@@ -108,6 +113,7 @@ private:
     Vector3d cop_in_lft_raw;
     Vector3d cop_in_rft_raw;
 
+    XBot::MatLogger::Ptr _logger;
 };
 
 

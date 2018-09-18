@@ -13,7 +13,8 @@ CompliantStabilizer::CompliantStabilizer(const double sample_time, const double 
     ANKLE_X_OFFSET(DEFAULT_ANKLE_X_OFFSET),
     ANKLE_HEIGHT(ankle_height),
     FOOT_LENGTH(foot_size[0]),
-    FOOT_WIDTH(foot_size[1])
+    FOOT_WIDTH(foot_size[1]),
+    _logger(XBot::MatLogger::getLogger("/tmp/compl_stabilizer_log"))
 {
 
     FzODE=Vector2d::Zero();
@@ -53,7 +54,8 @@ CompliantStabilizer::CompliantStabilizer(const double sample_time, const double 
     ANKLE_X_OFFSET(DEFAULT_ANKLE_X_OFFSET),
     ANKLE_HEIGHT(ankle_height),
     FOOT_LENGTH(foot_size[0]),
-    FOOT_WIDTH(foot_size[1])
+    FOOT_WIDTH(foot_size[1]),
+    _logger(XBot::MatLogger::getLogger("/tmp/compl_stabilizer_log"))
 {
 
     FzODE=Vector2d::Zero();
@@ -189,6 +191,13 @@ Vector3d CompliantStabilizer::update(const Eigen::Vector6d& FTLeft, const Eigen:
             deltaHip_ODE[i]=this->m_MinLimit(i);
     }
 
+    /* LOG */
+    _logger->add("delta_hip", deltaHip_ODE, 1, 20000);
+    _logger->add("ft_left", FTLeft, 1, 20000);
+    _logger->add("ft_right", FTRight, 1, 20000);
+    _logger->add("cop", m_cop, 1, 20000);
+    _logger->add("scaleCOP", scaleCOP, 1, 20000);
+    
     return deltaHip_ODE;
 
 }
@@ -203,8 +212,14 @@ void CompliantStabilizer::getCoP(Eigen::Vector2d& cop)
     cop = m_cop;
 }
 
-void CompliantStabilizer::CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left, Vector3d Rft, Vector3d Lft )
+void CompliantStabilizer::CalcCop(const Eigen::Vector6d& __FT_foot_right, 
+                const Eigen::Vector6d& __FT_foot_left, 
+                const Vector3d& Rft, 
+                const Vector3d& Lft)
 {
+    Eigen::Vector6d FT_foot_right = __FT_foot_right;
+    Eigen::Vector6d FT_foot_left = __FT_foot_left;
+    
     /*	for COP calculation */
     double pxrDS=0;
     double pyrDS=0;
@@ -213,11 +228,15 @@ void CompliantStabilizer::CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left,
     double pxDS=0;
     double pyDS=0;
     double pzDS=ANKLE_HEIGHT;//0.02;
+    
+    bool r_cop_computed = false, l_cop_computed = false;
 
     //begin computation of ZMP based on force without filtering
     // right foot co
     if(FT_foot_right[2]<0.1) FT_foot_right[2]=0.1;
 
+    _logger->add("ft_right_cop", FT_foot_right);
+    _logger->add("Fzmin", m_Fzmin);
     if ( FT_foot_right(2)>m_Fzmin)
     {
         pxrDS=(- FT_foot_right(4)-pzDS* FT_foot_right(0))/ FT_foot_right[2];
@@ -238,6 +257,8 @@ void CompliantStabilizer::CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left,
         {
             pyrDS=-(0.5*FOOT_WIDTH);
         }
+        
+        r_cop_computed = true;
     }
     else
     {
@@ -246,6 +267,7 @@ void CompliantStabilizer::CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left,
     }
     // left foot cop
     if(FT_foot_left[2]<0.1) FT_foot_left[2]=0.1;
+    _logger->add("ft_left_cop", FT_foot_left);
     if ( FT_foot_left(2)>m_Fzmin)
     {
         pxlDS=(- FT_foot_left(4)-pzDS* FT_foot_left(0))/ FT_foot_left[2];
@@ -266,6 +288,8 @@ void CompliantStabilizer::CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left,
         {
             pylDS=-(0.5*FOOT_WIDTH);
         }
+        
+        l_cop_computed = true;
     }
     else
     {
@@ -283,6 +307,13 @@ void CompliantStabilizer::CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left,
 
      cop_in_lft_raw = Fz_ratio_l * lcop_raw + Fz_ratio_r * (rcop_raw + Rft-Lft);
     cop_in_rft_raw = Fz_ratio_l * (lcop_raw + Lft-Rft) + Fz_ratio_r * rcop_raw;
+    
+    _logger->add("cop_in_lft_raw", cop_in_lft_raw, 1, 20000);
+    _logger->add("cop_in_rft_raw", cop_in_rft_raw, 1, 20000);
+    _logger->add("lcop_raw", lcop_raw, 1, 20000);
+    _logger->add("rcop_raw", rcop_raw, 1, 20000);
+    _logger->add("l_cop_computed", (int)l_cop_computed, 1, 20000);
+    _logger->add("r_cop_computed", (int)r_cop_computed, 1, 20000);
 
 }
 
