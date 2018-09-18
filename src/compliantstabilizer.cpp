@@ -92,9 +92,8 @@ void CompliantStabilizer::setAnkleOffset(const double x_offset)
 
 Vector3d CompliantStabilizer::update(Eigen::VectorXd FTLeft, Eigen::VectorXd FTRight,
                                      Eigen::Vector2d CoPLeft, Eigen::Vector2d CoPRight,
-                                     Vector3d Lft, Vector3d Rft){
-
-
+                                     Vector3d Lft, Vector3d Rft)
+{
     CalcCop(FTRight, FTLeft, Rft, Lft);
     double Gmg= m_mass*m_g;
     static Vector3d deltaHip_ODE;
@@ -196,6 +195,11 @@ void CompliantStabilizer::setGains(double Kx, double Ky, double Cx, double Cy){
     this->m_Kgains<<Kx,Ky,0;
     this->m_Cgains<<Cx,Cy,0;
 
+}
+
+void CompliantStabilizer::getCoP(Eigen::Vector2d& cop)
+{
+    cop = m_cop;
 }
 
 void CompliantStabilizer::CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left, Vector3d Rft, Vector3d Lft )

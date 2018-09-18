@@ -69,6 +69,8 @@ public:
 
    void setAnkleOffset(const double x_offset);
 
+   void getCoP(Eigen::Vector2d& cop);
+
 private:
    void CalcCop(VectorXd FT_foot_right, VectorXd FT_foot_left, Vector3d Rft, Vector3d Lft);
 
