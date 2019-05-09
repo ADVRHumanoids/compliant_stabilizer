@@ -76,7 +76,7 @@ public:
    void setAnkleOffset(const double x_offset);
    
 
-   void getCoP(Eigen::Vector2d& cop);
+   const Eigen::Vector2d& getCoP() const;
 
    void flush();
 
@@ -116,6 +116,8 @@ private:
     Vector3d cop_in_rft_raw;
 
     XBot::MatLogger::Ptr _logger;
+
+    Vector2d _measured_cop_raw;
 };
 
 
