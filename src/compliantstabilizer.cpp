@@ -119,7 +119,7 @@ Vector3d CompliantStabilizer::update(const Eigen::Vector6d& FTLeft, const Eigen:
     }
 
 
-    _measured_cop_raw = cop_in_lft_raw.head(2) * Fzl/( Fzl+Fzr ) + cop_in_rft_raw.head(2) * Fzr/( Fzl+Fzr );
+    _measured_cop_raw = cop_in_lft_raw * Fzl/( Fzl+Fzr ) + cop_in_rft_raw * Fzr/( Fzl+Fzr );
 
     cop_delta = deltaZMP_L * Fzl/( Fzl+Fzr ) + deltaZMP_R * Fzr/( Fzl+Fzr );
 
@@ -210,7 +210,7 @@ void CompliantStabilizer::setGains(double Kx, double Ky, double Cx, double Cy){
 
 }
 
-const Eigen::Vector2d &CompliantStabilizer::getCoP() const
+const Eigen::Vector3d &CompliantStabilizer::getCoP() const
 {
     return _measured_cop_raw;
 }
