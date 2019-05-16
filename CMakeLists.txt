@@ -76,7 +76,7 @@ if(${cartesian_interface_FOUND})
     add_library(CoMStabilizerAddon SHARED src/CoMStabilizerAddon.cpp)
     target_link_libraries(CoMStabilizerAddon PRIVATE ${OpenSoT_LIBRARIES}
                                                           CartesianInterface
-                                                          ${compliant_stabilizer_LIBRARIES})
+                                                          compliant_stabilizer)
     library_install(CoMStabilizerAddon 1 0 0)
 
 endif()
