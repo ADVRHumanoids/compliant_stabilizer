@@ -26,6 +26,9 @@ endif(COMMAND cmake_policy)
 include(ExternalProject)
 PROJECT(compliant_stabilizer)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+include(MacroInstallLib)
+
 FIND_PACKAGE(YCM REQUIRED)
 FIND_PACKAGE(Eigen3 REQUIRED)
 FIND_PACKAGE(OpenSoT QUIET)
@@ -61,7 +64,22 @@ if (${OpenSoT_FOUND})
     TARGET_LINK_LIBRARIES(compliant_stabilizer ${OpenSoT_LIBRARIES})
 endif()
 
+## Addons for libCartesianOpenSot
+find_package(cartesian_interface QUIET)
+find_package(catkin REQUIRED COMPONENTS roscpp
+                                       std_msgs
+                                       geometry_msgs
+                                       visualization_msgs
+                                       tf)
+if(${cartesian_interface_FOUND})
+    message("Adding src/CoMStabilizerAddon.cpp to compilation")
+    add_library(CoMStabilizerAddon SHARED src/CoMStabilizerAddon.cpp)
+    target_link_libraries(CoMStabilizerAddon PRIVATE ${OpenSoT_LIBRARIES}
+                                                          CartesianInterface
+                                                          ${compliant_stabilizer_LIBRARIES})
+    library_install(CoMStabilizerAddon 1 0 0)
 
+endif()
 
 ########################################################################
 # use YCM to export compliant_stabilizer so that it can be found using find_package #
