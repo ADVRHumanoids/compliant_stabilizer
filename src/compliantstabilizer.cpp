@@ -120,7 +120,7 @@ Vector3d CompliantStabilizer::update(const Eigen::Vector6d& FTLeft, const Eigen:
 
 
     _measured_cop_raw = cop_in_lft_raw * Fzl/( Fzl+Fzr ) + cop_in_rft_raw * Fzr/( Fzl+Fzr );
-    _measured_cop_raw[3] = Lft[3] * Fzl/( Fzl+Fzr ) + Rft[3] * Fzr/( Fzl+Fzr );
+    _measured_cop_raw[2] = Lft[2] * Fzl/( Fzl+Fzr ) + Rft[2] * Fzr/( Fzl+Fzr );
 
     cop_delta = deltaZMP_L * Fzl/( Fzl+Fzr ) + deltaZMP_R * Fzr/( Fzl+Fzr );
 
