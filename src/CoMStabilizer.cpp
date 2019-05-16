@@ -202,6 +202,7 @@ void CoMStabilizer::_log(XBot::MatLogger::Ptr logger)
     logger->add("right_wrench", _right_wrench);
     logger->add("l_sole_ref", _l_sole_ref);
     logger->add("r_sole_ref", _r_sole_ref);
+    logger->add("zmp_measured", _stabilizer.getCoP());
     
 }
 
