@@ -362,7 +362,6 @@ public:
 
         Eigen::Vector3d ZMP = _task->getStabilizer().getCoP();
 
-        std::cout<<"ZMP: ["<<ZMP.transpose()<<"]"<<std::endl;
 
         ZMP_marker.header.frame_id = child_frame_id;
         ZMP_marker.header.stamp = ros::Time::now();
