@@ -28,6 +28,7 @@ PROJECT(compliant_stabilizer)
 
 FIND_PACKAGE(YCM REQUIRED)
 FIND_PACKAGE(Eigen3 REQUIRED)
+FIND_PACKAGE(OpenSoT QUIET)
 
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -45,9 +46,22 @@ INCLUDE_DIRECTORIES(include ${EIGEN3_INCLUDE_DIR})
 set(compliant_stabilizer_sources src/compliantstabilizer.cpp
                           src/FilterHClass.cpp)
 
+if (${OpenSoT_FOUND})
+    message("Adding src/CoMStabilizer.cpp to compilation")
+    set(compliant_stabilizer_sources ${compliant_stabilizer_sources}
+        src/CoMStabilizer.cpp)
+
+    INCLUDE_DIRECTORIES(${OpenSoT_INCLUDE_DIRS})
+
+endif()
+
 ADD_LIBRARY(compliant_stabilizer SHARED ${compliant_stabilizer_sources})
 
-#TARGET_LINK_LIBRARIES(compliant_stabilizer )
+if (${OpenSoT_FOUND})
+    TARGET_LINK_LIBRARIES(compliant_stabilizer ${OpenSoT_LIBRARIES})
+endif()
+
+
 
 ########################################################################
 # use YCM to export compliant_stabilizer so that it can be found using find_package #
