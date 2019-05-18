@@ -1,7 +1,7 @@
 #include <cartesian_interface/problem/Task.h>
 #include <cartesian_interface/problem/Cartesian.h>
 #include <cartesian_interface/open_sot/TaskInterface.h>
-#include <OpenSoT/tasks/velocity/CoMStabilizer.h>
+#include <compliant_stabilizer/CoMStabilizer.h>
 #include <boost/make_shared.hpp>
 #include <ros/subscriber.h>
 #include <ros/node_handle.h>

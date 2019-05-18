@@ -15,8 +15,7 @@
  * Public License for more details
 */
 
-#include <OpenSoT/tasks/velocity/CoMStabilizer.h>
-
+#include <compliant_stabilizer/CoMStabilizer.h>
 #include <OpenSoT/tasks/velocity/CoM.h>
 #include <OpenSoT/utils/cartesian_utils.h>
 
