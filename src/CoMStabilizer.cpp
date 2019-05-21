@@ -57,6 +57,8 @@ CoMStabilizer::CoMStabilizer(  const Eigen::VectorXd& x,
     
     _left_wrench.setZero();
     _right_wrench.setZero();
+
+    _delta_com.setZero();
     
     _ft_sensor_l_sole->getWrench(_left_wrench);
     _ft_sensor_r_sole->getWrench(_right_wrench);
@@ -107,11 +109,11 @@ void CoMStabilizer::_update(const Eigen::VectorXd& x)
         _right_wrench *= -1;
     }
     
-    Eigen::Vector3d delta_com = _stabilizer.update(_left_wrench, _right_wrench,
+    Eigen::Vector3d _delta_com = _stabilizer.update(_left_wrench, _right_wrench,
                                                   CopPos_L, CopPos_R,
                                                   _l_sole_ref, _r_sole_ref);
     
-    Eigen::Vector3d com_updated = _desiredPosition + delta_com;
+    Eigen::Vector3d com_updated = _desiredPosition + _delta_com;
     CoM::setReference(com_updated, _desiredVelocity);
     
     CoM::_update(x);

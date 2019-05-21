@@ -68,6 +68,8 @@ namespace OpenSoT {
                 XBot::ForceTorqueSensor::ConstPtr _ft_sensor_r_sole;
                 
                 bool _invertFTSensors; //TODO take out
+
+                Eigen::Vector3d _delta_com;
                 
             public:
 
