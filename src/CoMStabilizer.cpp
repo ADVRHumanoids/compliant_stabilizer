@@ -109,7 +109,7 @@ void CoMStabilizer::_update(const Eigen::VectorXd& x)
         _right_wrench *= -1;
     }
     
-    Eigen::Vector3d _delta_com = _stabilizer.update(_left_wrench, _right_wrench,
+    _delta_com = _stabilizer.update(_left_wrench, _right_wrench,
                                                   CopPos_L, CopPos_R,
                                                   _l_sole_ref, _r_sole_ref);
     
