@@ -117,9 +117,13 @@ Vector3d CompliantStabilizer::update(const Eigen::Vector6d& FTLeft, const Eigen:
     if( Fzr< m_Fzmin ){
         Fzr= m_Fzmin;
     }
-
-
-    _measured_cop_raw = cop_in_lft_raw * Fzl/( Fzl+Fzr ) + cop_in_rft_raw * Fzr/( Fzl+Fzr );
+    
+    /* trasform CoP of left and right foot back to world */
+    Eigen::Vector2d cop_in_lft_world = cop_in_lft_raw.head(2) + Lft.head(2);
+    Eigen::Vector2d cop_in_rft_world = cop_in_rft_raw.head(2) + Rft.head(2);
+    
+    /* compute total CoP */
+    _measured_cop_raw.head(2) = cop_in_lft_world * Fzl/( Fzl+Fzr ) + cop_in_rft_world * Fzr/( Fzl+Fzr );
     _measured_cop_raw[2] = Lft[2] * Fzl/( Fzl+Fzr ) + Rft[2] * Fzr/( Fzl+Fzr );
 
     cop_delta = deltaZMP_L * Fzl/( Fzl+Fzr ) + deltaZMP_R * Fzr/( Fzl+Fzr );
