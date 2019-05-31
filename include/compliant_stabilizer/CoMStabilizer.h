@@ -69,7 +69,7 @@ namespace OpenSoT {
                 
                 bool _invertFTSensors; //TODO take out
 
-                Eigen::Vector3d _delta_com;
+                Eigen::Vector3d _delta_com, _com_updated;
                 
             public:
 

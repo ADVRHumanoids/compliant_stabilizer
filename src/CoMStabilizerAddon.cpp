@@ -357,37 +357,37 @@ public:
         /**
           * This part should be done in a dedicated update_ros() in the future
           */
-        visualization_msgs::Marker ZMP_marker;
-        std::string child_frame_id = "ci/world_odom";
+//         visualization_msgs::Marker ZMP_marker;
+//         std::string child_frame_id = "ci/world_odom";
 
-        Eigen::Vector3d ZMP = _task->getStabilizer().getCoP();
+//         Eigen::Vector3d ZMP = _task->getStabilizer().getCoP();
 
 
-        ZMP_marker.header.frame_id = child_frame_id;
-        ZMP_marker.header.stamp = ros::Time::now();
-        ZMP_marker.ns = "ZMP";
-        ZMP_marker.id = 0;
-        ZMP_marker.type = visualization_msgs::Marker::SPHERE;
-        ZMP_marker.action = visualization_msgs::Marker::ADD;
-
-        ZMP_marker.pose.orientation.x = 0.0;
-        ZMP_marker.pose.orientation.y = 0.0;
-        ZMP_marker.pose.orientation.z = 0.0;
-        ZMP_marker.pose.orientation.w = 1.0;
-        ZMP_marker.pose.position.x = ZMP[0];
-        ZMP_marker.pose.position.y = ZMP[1];
-        ZMP_marker.pose.position.z = ZMP[2];
-
-        ZMP_marker.color.a = 1.0;
-        ZMP_marker.color.r = 0.0;
-        ZMP_marker.color.g = 1.0;
-        ZMP_marker.color.b = 1.0;
-
-        ZMP_marker.scale.x = 0.02;
-        ZMP_marker.scale.y = 0.02;
-        ZMP_marker.scale.z = 0.02;
-
-        _vis_pub.publish(ZMP_marker);
+//         ZMP_marker.header.frame_id = child_frame_id;
+//         ZMP_marker.header.stamp = ros::Time::now();
+//         ZMP_marker.ns = "ZMP";
+//         ZMP_marker.id = 0;
+//         ZMP_marker.type = visualization_msgs::Marker::SPHERE;
+//         ZMP_marker.action = visualization_msgs::Marker::ADD;
+// 
+//         ZMP_marker.pose.orientation.x = 0.0;
+//         ZMP_marker.pose.orientation.y = 0.0;
+//         ZMP_marker.pose.orientation.z = 0.0;
+//         ZMP_marker.pose.orientation.w = 1.0;
+//         ZMP_marker.pose.position.x = ZMP[0];
+//         ZMP_marker.pose.position.y = ZMP[1];
+//         ZMP_marker.pose.position.z = ZMP[2];
+// 
+//         ZMP_marker.color.a = 1.0;
+//         ZMP_marker.color.r = 0.0;
+//         ZMP_marker.color.g = 1.0;
+//         ZMP_marker.color.b = 1.0;
+// 
+//         ZMP_marker.scale.x = 0.02;
+//         ZMP_marker.scale.y = 0.02;
+//         ZMP_marker.scale.z = 0.02;
+// 
+//         _vis_pub.publish(ZMP_marker);
 
         /** **/
         
