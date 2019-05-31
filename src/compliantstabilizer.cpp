@@ -106,8 +106,10 @@ Vector3d CompliantStabilizer::update(const Eigen::Vector6d& FTLeft, const Eigen:
     double sum0ode=0;
     double sumode[4]={0};
 
-    Vector2d deltaZMP_L= cop_in_lft_raw.head(2) - CoPLeft;
-    Vector2d deltaZMP_R= cop_in_rft_raw.head(2)- CoPRight;
+    double SCALE = 0.5;
+    
+    Vector2d deltaZMP_L= SCALE*cop_in_lft_raw.head(2) - CoPLeft;
+    Vector2d deltaZMP_R= SCALE*cop_in_rft_raw.head(2)- CoPRight;
 
     Fzl = FTLeft(2);
     Fzr = FTRight(2);
@@ -117,6 +119,12 @@ Vector3d CompliantStabilizer::update(const Eigen::Vector6d& FTLeft, const Eigen:
     if( Fzr< m_Fzmin ){
         Fzr= m_Fzmin;
     }
+    
+    /* ZMP with scaling */
+    Eigen::Vector2d cop_in_lft_world_scaled = SCALE*cop_in_lft_raw.head(2) + Lft.head(2);
+    Eigen::Vector2d cop_in_rft_world_scaled = SCALE*cop_in_rft_raw.head(2) + Rft.head(2);
+    _measured_cop_scaled.head(2) = cop_in_lft_world_scaled * Fzl/( Fzl+Fzr ) + cop_in_rft_world_scaled * Fzr/( Fzl+Fzr );
+    _measured_cop_scaled[2] = Lft[2] * Fzl/( Fzl+Fzr ) + Rft[2] * Fzr/( Fzl+Fzr );
     
     /* trasform CoP of left and right foot back to world */
     Eigen::Vector2d cop_in_lft_world = cop_in_lft_raw.head(2) + Lft.head(2);
@@ -218,6 +226,11 @@ void CompliantStabilizer::setGains(double Kx, double Ky, double Cx, double Cy){
 const Eigen::Vector3d &CompliantStabilizer::getCoP() const
 {
     return _measured_cop_raw;
+}
+
+const Eigen::Vector3d &CompliantStabilizer::getCoP_scaled() const
+{
+    return _measured_cop_scaled;
 }
 
 void CompliantStabilizer::CalcCop(const Eigen::Vector6d& __FT_foot_right,

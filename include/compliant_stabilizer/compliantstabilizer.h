@@ -77,7 +77,8 @@ public:
    
 
    const Eigen::Vector3d& getCoP() const;
-
+   const Eigen::Vector3d& getCoP_scaled() const;
+   
    void flush();
 
 private:
@@ -118,6 +119,7 @@ private:
     XBot::MatLogger::Ptr _logger;
 
     Vector3d _measured_cop_raw;
+    Vector3d _measured_cop_scaled;
 };
 
 
