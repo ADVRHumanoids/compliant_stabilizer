@@ -204,26 +204,9 @@ void CoMStabilizer::_log(XBot::MatLogger::Ptr logger)
     logger->add(CoM::getTaskID() + "_l_sole_ref", _l_sole_ref);
     logger->add(CoM::getTaskID() + "_r_sole_ref", _r_sole_ref);
     logger->add(CoM::getTaskID() + "_zmp_measured", _stabilizer.getCoP());
-    logger->add(CoM::getTaskID() + "_com_pos_desired", _desiredPosition);
-    logger->add(CoM::getTaskID() + "_com_vel_desired", _desiredVelocity);
-    logger->add(CoM::getTaskID() + "_zmp_ref", _zmp_ref);
-    logger->add(CoM::getTaskID() + "_left_wrench", _left_wrench);
-    logger->add(CoM::getTaskID() + "_right_wrench", _right_wrench);
-    logger->add(CoM::getTaskID() + "_l_sole_ref", _l_sole_ref);
-    logger->add(CoM::getTaskID() + "_r_sole_ref", _r_sole_ref);
-    logger->add(CoM::getTaskID() + "_zmp_measured", _stabilizer.getCoP());
-    logger->add(CoM::getTaskID() + "_delta_com", _delta_com);
-    logger->add(CoM::getTaskID() + "_com_updated", _com_updated);    logger->add(CoM::getTaskID() + "_com_pos_desired", _desiredPosition);
-    logger->add(CoM::getTaskID() + "_com_vel_desired", _desiredVelocity);
-    logger->add(CoM::getTaskID() + "_zmp_ref", _zmp_ref);
-    logger->add(CoM::getTaskID() + "_left_wrench", _left_wrench);
-    logger->add(CoM::getTaskID() + "_right_wrench", _right_wrench);
-    logger->add(CoM::getTaskID() + "_l_sole_ref", _l_sole_ref);
-    logger->add(CoM::getTaskID() + "_r_sole_ref", _r_sole_ref);
-    logger->add(CoM::getTaskID() + "_zmp_measured", _stabilizer.getCoP());
-    logger->add(CoM::getTaskID() + "_delta_com", _delta_com);
+    logger->add(CoM::getTaskID() + "_zmp_scaled", _stabilizer.getCoP_scaled());
     logger->add(CoM::getTaskID() + "_com_updated", _com_updated);
-    logger->add(CoM::getTaskID() + "_com_updated", _com_updated);
+    logger->add(CoM::getTaskID() + "_delta_com", _delta_com);
     
 }
 
