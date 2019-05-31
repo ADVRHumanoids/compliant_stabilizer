@@ -113,8 +113,8 @@ void CoMStabilizer::_update(const Eigen::VectorXd& x)
                                                   CopPos_L, CopPos_R,
                                                   _l_sole_ref, _r_sole_ref);
     
-    Eigen::Vector3d com_updated = _desiredPosition + _delta_com;
-    CoM::setReference(com_updated, _desiredVelocity);
+    _com_updated = _desiredPosition + _delta_com;
+    CoM::setReference(_com_updated, _desiredVelocity);
     
     CoM::_update(x);
 
@@ -196,15 +196,16 @@ void CoMStabilizer::_log(XBot::MatLogger::Ptr logger)
 {
     OpenSoT::tasks::velocity::CoM::_log(logger);
     
-    logger->add("com_pos_desired", _desiredPosition);
-    logger->add("com_vel_desired", _desiredVelocity);
-    logger->add("zmp_ref", _zmp_ref);
-    logger->add("left_wrench", _left_wrench);
-    logger->add("right_wrench", _right_wrench);
-    logger->add("l_sole_ref", _l_sole_ref);
-    logger->add("r_sole_ref", _r_sole_ref);
-    logger->add("zmp_measured", _stabilizer.getCoP());
-    logger->add("delta_com", _delta_com);
+    logger->add(CoM::getTaskID() + "_com_pos_desired", _desiredPosition);
+    logger->add(CoM::getTaskID() + "_com_vel_desired", _desiredVelocity);
+    logger->add(CoM::getTaskID() + "_zmp_ref", _zmp_ref);
+    logger->add(CoM::getTaskID() + "_left_wrench", _left_wrench);
+    logger->add(CoM::getTaskID() + "_right_wrench", _right_wrench);
+    logger->add(CoM::getTaskID() + "_l_sole_ref", _l_sole_ref);
+    logger->add(CoM::getTaskID() + "_r_sole_ref", _r_sole_ref);
+    logger->add(CoM::getTaskID() + "_zmp_measured", _stabilizer.getCoP());
+    logger->add(CoM::getTaskID() + "_delta_com", _delta_com);
+    logger->add(CoM::getTaskID() + "_com_updated", _com_updated);
     
 }
 
