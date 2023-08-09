@@ -156,7 +156,7 @@ void CoMStabilizer::setReference(const Eigen::Vector3d &desiredPosition,
     _desiredVelocity = desiredVelocity;
 }
 
-Eigen::VectorXd CoMStabilizer::getReference() const
+const Vector3d &CoMStabilizer::getReference() const
 {
     return _desiredPosition;
 }
@@ -192,7 +192,7 @@ void CoMStabilizer::setSoleRef(Affine3d l_sole_ref, Affine3d r_sole_ref)
     _r_sole_ref = r_sole_ref.translation();
 }
 
-void CoMStabilizer::_log(XBot::MatLogger::Ptr logger)
+void CoMStabilizer::_log(XBot::MatLogger2::Ptr logger)
 {
     OpenSoT::tasks::velocity::CoM::_log(logger);
     

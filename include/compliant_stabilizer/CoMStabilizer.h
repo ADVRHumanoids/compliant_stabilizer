@@ -128,7 +128,7 @@ namespace OpenSoT {
                 virtual void setReference(const KDL::Vector& desiredPosition,
                                   const KDL::Vector& desiredVelocity);
                 
-                virtual Eigen::VectorXd getReference() const;
+                virtual const Eigen::Vector3d& getReference() const;
                 virtual void getReference(Eigen::Vector3d& desiredPosition,
                                   Eigen::Vector3d& desiredVelocity) const;
                                   
@@ -143,7 +143,7 @@ namespace OpenSoT {
                 void setSoleRef(Eigen::Affine3d l_sole_ref, Eigen::Affine3d r_sole_ref);
               
                 
-               virtual void _log(XBot::MatLogger::Ptr logger);
+               virtual void _log(XBot::MatLogger2::Ptr logger);
 
                 const CompliantStabilizer& getStabilizer();
 
