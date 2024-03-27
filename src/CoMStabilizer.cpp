@@ -29,8 +29,7 @@ using namespace OpenSoT::tasks::velocity;
     * a ConstPtr for the l_sole and the r_sole force/torque sensors (this will automatically update the wrenches needed by the stabilizer)
     * */
 
-CoMStabilizer::CoMStabilizer(  const Eigen::VectorXd& x,
-                                XBot::ModelInterface& robot,
+CoMStabilizer::CoMStabilizer(   XBot::ModelInterface& robot,
                                 
                                 Eigen::Affine3d l_sole,
                                 Eigen::Affine3d r_sole,
@@ -47,7 +46,7 @@ CoMStabilizer::CoMStabilizer(  const Eigen::VectorXd& x,
                                 const Eigen::Vector3d& MinLims,
                                 const bool invertFTSensors, //TODO take out
                                 const double samples2ODE,
-                                const double freq) : CoM(x, robot, "CoMStabilizer"),
+                                const double freq) : CoM(robot, "CoMStabilizer"),
                                                      _stabilizer(sample_time, mass, ankle_height, foot_size, Fzmin,
                                                                 K, C, MaxLims, MinLims, samples2ODE, freq),
                                                      _ft_sensor_l_sole(ft_sensor_l_sole),
@@ -76,7 +75,7 @@ CoMStabilizer::CoMStabilizer(  const Eigen::VectorXd& x,
     _l_sole_ref = l_sole.translation();
     _r_sole_ref = r_sole.translation();
     
-    _update(Eigen::VectorXd(0));
+    _update();
     
     
     
@@ -86,7 +85,7 @@ CoMStabilizer::~CoMStabilizer()
 {
 }
 
-void CoMStabilizer::_update(const Eigen::VectorXd& x)
+void CoMStabilizer::_update()
 
 {
     
@@ -116,7 +115,7 @@ void CoMStabilizer::_update(const Eigen::VectorXd& x)
     _com_updated = _desiredPosition + _delta_com;
     CoM::setReference(_com_updated, _desiredVelocity);
     
-    CoM::_update(x);
+    CoM::_update();
 
     _desiredVelocity.setZero();
 }

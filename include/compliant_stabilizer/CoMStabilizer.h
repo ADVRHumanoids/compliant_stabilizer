@@ -96,8 +96,7 @@ namespace OpenSoT {
                  * @param samples2ODE
                  * @param freq 
                  */
-                CoMStabilizer(  const Eigen::VectorXd& x,
-                                XBot::ModelInterface& robot,
+                CoMStabilizer(  XBot::ModelInterface& robot,
                                 
                                 Eigen::Affine3d l_sole,
                                 Eigen::Affine3d r_sole,
@@ -119,7 +118,7 @@ namespace OpenSoT {
 
                 ~CoMStabilizer();
 
-                virtual void _update(   const Eigen::VectorXd& x);
+                virtual void _update();
                 
                 virtual void setReference(const Eigen::Vector3d& desiredPosition);
                 virtual void setReference(const KDL::Vector& desiredPosition);
