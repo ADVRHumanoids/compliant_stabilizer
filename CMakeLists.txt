@@ -23,6 +23,7 @@ PROJECT(compliant_stabilizer)
 find_package(catkin)
 FIND_PACKAGE(Eigen3 REQUIRED)
 FIND_PACKAGE(OpenSoT REQUIRED)
+find_package(matlogger2 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -53,7 +54,7 @@ catkin_package(
 ADD_LIBRARY(compliant_stabilizer SHARED ${compliant_stabilizer_sources})
 
 if (${OpenSoT_FOUND})
-    TARGET_LINK_LIBRARIES(compliant_stabilizer ${OpenSoT_LIBRARIES})
+    TARGET_LINK_LIBRARIES(compliant_stabilizer matlogger2::matlogger2 ${OpenSoT_LIBRARIES})
 endif()
 
 install(TARGETS compliant_stabilizer

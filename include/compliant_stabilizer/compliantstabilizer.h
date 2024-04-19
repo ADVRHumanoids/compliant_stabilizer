@@ -29,7 +29,8 @@
 #include <Eigen/Dense>
 #include "FilterHClass.h"
 #include <compliant_stabilizer/defines.h>
-#include <XBotInterface/MatLogger.hpp>
+#include <xbot2_interface/logger.h>
+#include <matlogger2/matlogger2.h>
 
 using namespace Eigen;
 
@@ -78,8 +79,6 @@ public:
 
    const Eigen::Vector3d& getCoP() const;
 
-   void flush();
-
 private:
    void CalcCop(const Eigen::Vector6d& FT_foot_right, 
                 const Eigen::Vector6d& FT_foot_left, 
@@ -115,7 +114,7 @@ private:
     Vector3d cop_in_lft_raw;
     Vector3d cop_in_rft_raw;
 
-    XBot::MatLogger::Ptr _logger;
+    XBot::MatLogger2::Ptr _logger;
 
     Vector3d _measured_cop_raw;
 };

@@ -14,8 +14,9 @@ CompliantStabilizer::CompliantStabilizer(const double sample_time, const double 
     ANKLE_HEIGHT(ankle_height),
     FOOT_LENGTH(foot_size[0]),
     FOOT_WIDTH(foot_size[1]),
-    _logger(XBot::MatLogger::getLogger("/tmp/compl_stabilizer_log"))
+    _logger(XBot::MatLogger2::MakeLogger("/tmp/compl_stabilizer_log"))
 {
+    _logger->set_buffer_mode(XBot::VariableBuffer::Mode::circular_buffer);
 
     FzODE=Vector2d::Zero();
 
@@ -55,8 +56,9 @@ CompliantStabilizer::CompliantStabilizer(const double sample_time, const double 
     ANKLE_HEIGHT(ankle_height),
     FOOT_LENGTH(foot_size[0]),
     FOOT_WIDTH(foot_size[1]),
-    _logger(XBot::MatLogger::getLogger("/tmp/compl_stabilizer_log"))
+    _logger(XBot::MatLogger2::MakeLogger("/tmp/compl_stabilizer_log"))
 {
+    _logger->set_buffer_mode(XBot::VariableBuffer::Mode::circular_buffer);
 
     FzODE=Vector2d::Zero();
 
@@ -200,11 +202,11 @@ Vector3d CompliantStabilizer::update(const Eigen::Vector6d& FTLeft, const Eigen:
     }
 
     /* LOG */
-    _logger->add("delta_hip", deltaHip_ODE, 1, 20000);
-    _logger->add("ft_left", FTLeft, 1, 20000);
-    _logger->add("ft_right", FTRight, 1, 20000);
-    _logger->add("cop", m_cop, 1, 20000);
-    _logger->add("scaleCOP", scaleCOP, 1, 20000);
+    _logger->add("delta_hip", deltaHip_ODE);
+    _logger->add("ft_left", FTLeft);
+    _logger->add("ft_right", FTRight);
+    _logger->add("cop", m_cop);
+    _logger->add("scaleCOP", scaleCOP);
     
     return deltaHip_ODE;
 
@@ -316,17 +318,11 @@ void CompliantStabilizer::CalcCop(const Eigen::Vector6d& __FT_foot_right,
      cop_in_lft_raw = Fz_ratio_l * lcop_raw + Fz_ratio_r * (rcop_raw + Rft-Lft);
     cop_in_rft_raw = Fz_ratio_l * (lcop_raw + Lft-Rft) + Fz_ratio_r * rcop_raw;
     
-    _logger->add("cop_in_lft_raw", cop_in_lft_raw, 1, 20000);
-    _logger->add("cop_in_rft_raw", cop_in_rft_raw, 1, 20000);
-    _logger->add("lcop_raw", lcop_raw, 1, 20000);
-    _logger->add("rcop_raw", rcop_raw, 1, 20000);
-    _logger->add("l_cop_computed", (int)l_cop_computed, 1, 20000);
-    _logger->add("r_cop_computed", (int)r_cop_computed, 1, 20000);
+    _logger->add("cop_in_lft_raw", cop_in_lft_raw);
+    _logger->add("cop_in_rft_raw", cop_in_rft_raw);
+    _logger->add("lcop_raw", lcop_raw);
+    _logger->add("rcop_raw", rcop_raw);
+    _logger->add("l_cop_computed", (int)l_cop_computed);
+    _logger->add("r_cop_computed", (int)r_cop_computed);
 
 }
-
-void CompliantStabilizer::flush()
-{
-    _logger->flush();
-}
-
